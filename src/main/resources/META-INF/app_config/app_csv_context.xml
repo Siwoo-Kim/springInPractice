@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="accountRepository" class="com.siwoo.application.repository.CsvAccountRepository">
+        <property name="csvResource" value="classpath:/META-INF/app_data/accounts.csv"></property>
+    </bean>
+
+    <bean id="accountService" class="com.siwoo.application.service.JdbcAccountService">
+        <property name="accountRepsotiry" ref="accountRepository"></property>
+    </bean>
+
+</beans>

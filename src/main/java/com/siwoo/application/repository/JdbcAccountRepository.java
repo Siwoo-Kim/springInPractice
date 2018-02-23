@@ -1,10 +1,12 @@
 package com.siwoo.application.repository;
 
+import com.siwoo.application.domain.Account;
 import oracle.jdbc.pool.OracleDataSource;
 
 import javax.sql.DataSource;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 public class JdbcAccountRepository implements AccountRepsotiry {
     private DataSource dataSource;
@@ -27,4 +29,8 @@ public class JdbcAccountRepository implements AccountRepsotiry {
         return dataSource;
     }
 
+    @Override
+    public List<Account> findAll() throws Exception {
+        return null;
+    }
 }

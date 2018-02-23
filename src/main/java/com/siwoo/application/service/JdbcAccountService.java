@@ -1,12 +1,15 @@
 package com.siwoo.application.service;
 
+import com.siwoo.application.domain.Account;
 import com.siwoo.application.repository.AccountRepsotiry;
+import com.siwoo.application.repository.CsvAccountRepository;
 import com.siwoo.application.repository.JdbcAccountRepository;
 import oracle.jdbc.pool.OracleDataSource;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 public class JdbcAccountService implements AccountService{
@@ -38,4 +41,13 @@ public class JdbcAccountService implements AccountService{
     public AccountRepsotiry getAccountRepsotiry() {
         return accountRepsotiry;
     }
+
+    public List<Account> findDelinquentAccounts() throws Exception {
+        if(! (accountRepsotiry instanceof CsvAccountRepository) ){
+            throw new UnsupportedOperationException();
+        }
+        return ((CsvAccountRepository) accountRepsotiry).findDeliquentAccounts();
+    }
+
+
 }
