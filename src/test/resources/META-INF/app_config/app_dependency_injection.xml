@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="dataSource" class="oracle.jdbc.pool.OracleDataSource">
+        <property name="user" value="java" />
+        <property name="password" value="java" />
+        <property name="URL" value="jdbc:oracle:thin://localhost:1521/orcl" />
+    </bean>
+
+    <bean id="accountRepository" class="com.siwoo.application.repository.JdbcAccountRepository">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="accountService" class="com.siwoo.application.service.JdbcAccountService">
+        <property name="accountRepsotiry" ref="accountRepository" />
+    </bean>
+
+</beans>
