@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config />
+
+    <bean id="contactService" class="com.siwoo.application.service.OrmContactServiceImpl" />
+
+    <util:properties id="jdbcProps" location="classpath:/META-INF/app_properties/jdbc.properties" />
+    <util:properties id="hibProps" location="classpath:/META-INF/app_properties/hibernate.properties" />
+
+    <bean id="dataSource"
+          class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close"
+          p:driverClassName="#{jdbcProps.driverClassName}"
+          p:url="#{jdbcProps.url}"
+          p:username="#{jdbcProps.username}"
+          p:password="#{jdbcProps.password}"/>
+
+    <tx:annotation-driven />
+    <!-- hibernate properties -->
+    <util:properties id="hibernateProps" >
+        <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+        <prop key="hibernate.show_sql">true</prop>
+        <prop key="hibernate.format_sql">true</prop>
+        <prop key="hibernate.id.new_generator_mappings">true</prop>
+        <prop key="hibernate.hbm2ddl.auto">create</prop>
+    </util:properties>
+
+    <!-- persistence exception handler -->
+    <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:packagesToScan="com.siwoo.application.domain"
+          p:jpaProperties-ref="hibernateProps"
+    >
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+    </bean>
+
+
+</beans>
