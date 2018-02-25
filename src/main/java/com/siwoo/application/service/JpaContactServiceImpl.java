@@ -1,6 +1,7 @@
 package com.siwoo.application.service;
 
 import com.siwoo.application.domain.Contact;
+import com.siwoo.application.repository.ContactRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,35 +14,32 @@ import java.util.List;
 import java.util.Properties;
 
 @Service @Transactional
-public class OrmContactServiceImpl implements ContactService{
+public class JpaContactServiceImpl implements ContactService{
 
-    @PersistenceContext private EntityManager entityManager;
-
+    @Autowired ContactRepository contactRepository;
     @Override
     public void createContact(Contact contact) {
-        entityManager.persist(contact);
+        contactRepository.create(contact);
     }
 
     @Override
     public List<Contact> getContacts() {
-        return entityManager.createQuery("select c from Contact c",Contact.class).getResultList();
+        return contactRepository.getAll();
     }
 
     @Override
     public List<Contact> getContactsByEmail(String email) {
-        return entityManager.createNamedQuery("findContactsByEmail",Contact.class)
-                .setParameter("email","%" + email + "%")
-                .getResultList();
+        return contactRepository.findByEmail(email);
     }
 
     @Override
     public Contact getContact(Long id) {
-        return entityManager.find(Contact.class,id);
+        return contactRepository.get(id);
     }
 
     @Override
     public void updateContact(Contact contact) {
-        entityManager.remove(contact);
+        contactRepository.update(contact);
     }
 
 }

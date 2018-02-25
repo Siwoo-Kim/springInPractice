@@ -15,7 +15,7 @@
 
     <context:annotation-config />
 
-    <bean id="contactService" class="com.siwoo.application.service.OrmContactServiceImpl" />
+    <bean id="contactService" class="com.siwoo.application.service.JpaContactServiceImpl" />
 
     <util:properties id="jdbcProps" location="classpath:/META-INF/app_properties/jdbc.properties" />
 

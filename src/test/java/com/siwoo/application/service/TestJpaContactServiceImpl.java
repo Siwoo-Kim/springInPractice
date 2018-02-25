@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/META-INF/app_config/orm-context.xml")
-public class TestOrmContactServiceImpl {
+public class TestJpaContactServiceImpl {
 
     @Autowired ContactService contactService;
 

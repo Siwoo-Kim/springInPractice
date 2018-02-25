@@ -15,7 +15,8 @@
 
     <context:annotation-config />
 
-    <bean id="contactService" class="com.siwoo.application.service.OrmContactServiceImpl" />
+    <bean id="contactService" class="com.siwoo.application.service.JpaContactServiceImpl" />
+    <bean id="jpaContactRepository" class="com.siwoo.application.repository.JpaContactRepository" />
 
     <util:properties id="jdbcProps" location="classpath:/META-INF/app_properties/jdbc.properties" />
     <util:properties id="hibProps" location="classpath:/META-INF/app_properties/hibernate.properties" />
@@ -28,7 +29,11 @@
           p:username="#{jdbcProps.username}"
           p:password="#{jdbcProps.password}"/>
 
-    <tx:annotation-driven />
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+          p:dataSource-ref="dataSource"
+    />
     <!-- hibernate properties -->
     <util:properties id="hibernateProps" >
         <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
